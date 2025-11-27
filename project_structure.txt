@@ -1,6 +1,7 @@
 invert_pdf_reader/
 ├── invert_pdf_reader/
-│   ├── main.py           # Entry point (CLI or GUI)
+│   ├── main.py             # Entry point (CLI or GUI)
+│   └── inverter.py         # Invert pdf logic 
 ├── requirements.txt      # Dependencies
 ├── README.md
 ├── LICENSE
