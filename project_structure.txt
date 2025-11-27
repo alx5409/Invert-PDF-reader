@@ -3,4 +3,5 @@ invert_pdf_reader/
 │   ├── main.py           # Entry point (CLI or GUI)
 ├── requirements.txt      # Dependencies
 ├── README.md
+├── LICENSE
 └── .gitignore
