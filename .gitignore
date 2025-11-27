@@ -6,3 +6,6 @@ __pycache__/
 
 # PDF output
 *.pdf
+
+# Test
+test.py
