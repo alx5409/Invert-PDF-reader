@@ -1,0 +1,11 @@
+# Python bytecode
+__pycache__/
+
+# VS Code settings
+.vscode/
+
+# PDF output
+*.pdf
+
+# Test
+test.py
