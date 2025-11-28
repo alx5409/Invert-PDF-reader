@@ -8,4 +8,4 @@ __pycache__/
 *.pdf
 
 # Test
-test.py
+testing/
