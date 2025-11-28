@@ -1,7 +1,14 @@
 invert_pdf_reader/
 ├── invert_pdf_reader/
-│   ├── main.py           # Entry point (CLI or GUI)
+│   ├── main.py             # Entry point (CLI or GUI)
+│   └── inverter.py         # Invert pdf logic 
 ├── requirements.txt      # Dependencies
+├── configuration
+│   └── config.py   # Relative routes
+├── utils
+│   └── file_handler.py   # Functions to handle files
 ├── README.md
+├── input/
+├── output/
 ├── LICENSE
 └── .gitignore
