@@ -8,5 +8,7 @@ invert_pdf_reader/
 ├── utils
 │   └── file_handler.py   # Functions to handle files
 ├── README.md
+├── input/
+├── output/
 ├── LICENSE
 └── .gitignore
