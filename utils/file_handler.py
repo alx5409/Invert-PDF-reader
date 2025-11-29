@@ -3,17 +3,29 @@ import fitz
 import logging
 from typing import List, Optional
 
+def exists_file_path(path_file: str)    -> bool :
+    if not os.path.exists(path_file):
+        logging.error(f"File with path name {path_file} does not exist")
+        return False
+    
+    return True
+
+def exists_folder(path_folder: str) -> bool :
+    if not os.path.exists(path_folder):
+        logging.error(f"Folder {path_folder} does not exist")
+        return False
+    
+    return True
+
 def get_pdf_file(input_folder: str, pdf_filename: str) -> Optional[fitz.Document] :
     """Get a document object by reading a pdf with filename in the input folder"""
 
-    if not os.path.exists(input_folder):
-        logging.error(f"Folder {input_folder} does not exist")
+    if not exists_folder(input_folder):
         return None
     
     pdf_path = os.path.join(input_folder, pdf_filename)
 
-    if not os.path.exists(pdf_path):
-        logging.error(f"File with path name {pdf_path} does not exist")
+    if not exists_file_path(pdf_path):
         return None
     
     try:
@@ -26,8 +38,7 @@ def get_pdf_files(input_folder: str) -> List[str] :
     """List all PDF files in the input folder."""
     pdf_files = []
     
-    if not os.path.exists(input_folder):
-        logging.error(f"Folder {input_folder} does not exist")
+    if not exists_folder(input_folder):
         return pdf_files
     
     if not os.listdir(input_folder):
@@ -44,8 +55,7 @@ def get_pdf_files(input_folder: str) -> List[str] :
 def copy_pdf_to_output(pdf_file: fitz.Document, output_folder:str) -> None :
     """Copies a single pdf file in the output folder with a new name"""
 
-    if not os.path.exists(output_folder):
-        logging.error(f"Folder {output_folder} does not exist")
+    if not exists_folder(output_folder):
         return
     
     if not pdf_file:
@@ -60,17 +70,34 @@ def copy_pdf_to_output(pdf_file: fitz.Document, output_folder:str) -> None :
     pdf_file.save(output_path)
     logging.info(f"Success at copying {pdf_file} to {output_folder}")
 
-# TODO
-# Remove pdf file from a folder
 def delete_pdf_file(pdf_path: str) -> None:
     """Delete a PDF file if it exists."""
-    pass
+    if not exists_file_path(pdf_path):
+        return
+    
+    try:
+        os.remove(pdf_path)
+        logging.info(f"Deleted PDF file: {pdf_path}")
+    except Exception as e:
+        logging.error(f"Failed to delete PDF file {pdf_path}")
 
-# Rename a PDF in a folder
-def rename_pdf_file(old_path: str, new_path: str) -> None:
+
+def rename_pdf_file(pdf_path: str, new_name: str) -> None:
     """Rename a PDF file."""
-    pass
+    if not exists_file_path(pdf_path):
+        return
+    
+    try:
+        dir_name = os.path.dirname(pdf_path)
+        name = os.path.basename(pdf_path)
+        new_path = os.path.join(dir_name, new_name)
+        os.rename(pdf_path, new_path)
+        logging.info(f"Renamed PDF file from {name} to {new_name}")
+    except Exception as e:
+        logging.error(f"Failed to rename PDF file {pdf_path}")
+    
 
+# TODO
 # Move a pdf file from one folder to another
 def move_pdf_file(src_path: str, dest_folder: str) -> None:
     """Move a PDF file to another folder."""
