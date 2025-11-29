@@ -3,9 +3,7 @@ General file and folder utility functions for existence checks.
 """
 
 import os
-import fitz
 import logging
-from typing import List, Optional
 
 def exists_file_path(path_file: str)    -> bool :
     if not os.path.exists(path_file):
