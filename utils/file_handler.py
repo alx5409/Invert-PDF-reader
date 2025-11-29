@@ -1,3 +1,13 @@
+"""
+Utility functions for handling files, particularly PDF files. Includes functions to:
+-check for file and folder existence
+-retrieve PDF files
+-copy
+-delete
+-rename
+-move PDF files.
+"""
+
 import os
 import fitz
 import logging
@@ -118,7 +128,6 @@ def move_pdf_file(src_path: str, dest_folder: str) -> None:
     except OSError as e:
         logging.error(f"OS error when moving {src_path} to {dest_folder}: {e}")
 
-# TODO
 def move_all_pdf_files(src_folder: str, dest_folder: str) -> None:
     """Move all PDF files from one folder to another."""
     if not exists_folder(src_folder):
