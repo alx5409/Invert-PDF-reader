@@ -103,6 +103,9 @@ def move_pdf_file(src_path: str, dest_folder: str) -> None:
         return
     if not exists_folder(dest_folder):
         return
+    if not src_path.lower().endswith('.pdf'):
+        logging.error(f"Source path {src_path} is not a PDF file")
+        return
     try:
         filename = os.path.basename(src_path)
         dest_path = os.path.join(dest_folder, filename)
@@ -118,4 +121,10 @@ def move_pdf_file(src_path: str, dest_folder: str) -> None:
 # TODO
 def move_all_pdf_files(src_folder: str, dest_folder: str) -> None:
     """Move all PDF files from one folder to another."""
-    pass
+    if not exists_folder(src_folder):
+        return
+    if not exists_folder(dest_folder):
+        return
+    for filename in os.listdir(src_folder):
+        file_path = os.path.join(src_folder, filename)
+        move_pdf_file(file_path, dest_folder)
