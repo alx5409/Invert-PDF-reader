@@ -8,6 +8,7 @@ invert_pdf_reader/
 ├── utils
 │   └── file_handler.py   # Functions to handle files
 ├── README.md
+├── logs/   # Store the logs file
 ├── input/
 ├── output/
 ├── LICENSE
