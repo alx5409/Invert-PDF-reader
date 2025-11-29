@@ -9,3 +9,10 @@ __pycache__/
 
 # Test
 testing/
+
+# Logs
+logs/
+
+# Input and output files
+input/
+output/
