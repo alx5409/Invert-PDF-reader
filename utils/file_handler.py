@@ -97,13 +97,25 @@ def rename_pdf_file(pdf_path: str, new_name: str) -> None:
         logging.error(f"Failed to rename PDF file {pdf_path}")
     
 
-# TODO
-# Move a pdf file from one folder to another
 def move_pdf_file(src_path: str, dest_folder: str) -> None:
     """Move a PDF file to another folder."""
-    pass
+    if not exists_file_path(src_path):
+        return
+    if not exists_folder(dest_folder):
+        return
+    try:
+        filename = os.path.basename(src_path)
+        dest_path = os.path.join(dest_folder, filename)
+        os.rename(src_path, dest_path)
+        logging.info(f"Moved PDF file from {src_path} to {dest_folder}")
+    except FileNotFoundError:
+        logging.error(f"File not found: {src_path}")
+    except PermissionError:
+        logging.error(f"Permission denied when moving {src_path} to {dest_folder}")
+    except OSError as e:
+        logging.error(f"OS error when moving {src_path} to {dest_folder}: {e}")
 
-# Move all pdf files from one folder to another
+# TODO
 def move_all_pdf_files(src_folder: str, dest_folder: str) -> None:
     """Move all PDF files from one folder to another."""
     pass
