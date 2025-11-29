@@ -1,0 +1,1 @@
+#TODO implement image handling utilities for copying, deleting, pasting, and renaming image files and transform to PDF.
