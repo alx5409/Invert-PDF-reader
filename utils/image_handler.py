@@ -6,11 +6,11 @@ import os
 from file_handler import exists_file_path, exists_folder
 from pdf_handler import is_pdf_file
 
-IMG_FORMAT = (".png", ".jpg", ".jpeg", ".bmp", ".gif")
+IMG_EXTENSIONS   = (".png", ".jpg", ".jpeg", ".bmp", ".gif")
 
 def is_img_file(file_name: str) -> bool :
     """Check if the file is an image based on its extension."""
-    return file_name.lower().endswith(IMG_FORMAT)
+    return file_name.lower().endswith(IMG_EXTENSIONS)
 
 def get_img_file(input_folder: str, pdf_filename: str) -> Optional[Image.Image] :
     """Get an image object by reading an image with filename in the input folder"""

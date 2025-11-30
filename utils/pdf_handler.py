@@ -9,11 +9,14 @@ from typing import List, Optional
 
 from file_handler import exists_file_path, exists_folder
 
+PDF_EXTENSION = ".pdf"
+
 def is_pdf_file(file_name: str) -> bool :
     """Check if the file is a PDF based on its extension."""
-    return file_name.lower().endswith(".pdf")
+    return file_name.lower().endswith(PDF_EXTENSION)
 
 def check_pdf_validity(pdf_path: str) -> bool :
+    """Check if the PDF file exists and is a valid PDF."""
     if not is_pdf_file(pdf_path):
         logging.error(f"File {pdf_path} is not a supported PDF format")
         return False
