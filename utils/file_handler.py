@@ -5,7 +5,7 @@ General file and folder utility functions for existence checks.
 import logging
 import os
 
-def exists_file_path(path_file: str)    -> bool :
+def exists_file_path(path_file: str) -> bool :
     if not os.path.exists(path_file):
         logging.error(f"File with path name {path_file} does not exist")
         return False
