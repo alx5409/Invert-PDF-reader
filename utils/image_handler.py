@@ -1,7 +1,10 @@
-from PIL import Image
+"""Utility functions for handling image files, such as opening, listing, copying, deleting,
+renaming, and converting images to PDF files."""
+
 import logging
-from typing import Optional
+from PIL import Image
 import os
+from typing import Optional
 
 from file_handler import exists_file_path, exists_folder
 from pdf_handler import is_pdf_file

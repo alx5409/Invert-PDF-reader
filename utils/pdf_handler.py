@@ -2,9 +2,9 @@
 Utility functions for handling PDF files, such as opening, listing, copying, deleting,
 renaming, and moving PDF files. Uses PyMuPDF for PDF operations.
 """
-import os
-import logging
 import fitz
+import logging
+import os
 from typing import List, Optional
 
 from file_handler import exists_file_path, exists_folder
