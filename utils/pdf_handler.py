@@ -7,7 +7,7 @@ import logging
 import os
 from typing import List, Optional
 
-from file_handler import exists_file_path, exists_folder
+from .file_handler import exists_file_path, exists_folder
 
 PDF_EXTENSION = ".pdf"
 

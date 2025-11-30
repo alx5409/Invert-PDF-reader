@@ -6,8 +6,8 @@ from PIL import Image
 import os
 from typing import Optional
 
-from file_handler import exists_file_path, exists_folder
-from pdf_handler import is_pdf_file
+from .file_handler import exists_file_path, exists_folder
+from .pdf_handler import is_pdf_file
 
 IMG_EXTENSIONS   = (".png", ".jpg", ".jpeg", ".bmp", ".gif")
 
@@ -15,13 +15,13 @@ def is_img_file(file_name: str) -> bool :
     """Check if the file is an image based on its extension."""
     return file_name.lower().endswith(IMG_EXTENSIONS)
 
-def get_img_file(input_folder: str, pdf_filename: str) -> Optional[Image.Image] :
+def get_img_file(input_folder: str, img_filename: str) -> Optional[Image.Image] :
     """Get an image object by reading an image with filename in the input folder"""
 
     if not exists_folder(input_folder):
         return None
     
-    img_path = os.path.join(input_folder, pdf_filename)
+    img_path = os.path.join(input_folder, img_filename)
 
     if not exists_file_path(img_path):
         return None
