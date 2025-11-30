@@ -16,3 +16,6 @@ logs/
 # Input and output files
 input/
 output/
+
+# Environment variables
+.env
