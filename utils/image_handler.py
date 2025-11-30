@@ -4,6 +4,7 @@ from typing import Optional
 import os
 
 from file_handler import exists_file_path, exists_folder
+from pdf_handler import is_pdf_file
 
 IMG_FORMAT = (".png", ".jpg", ".jpeg", ".bmp", ".gif")
 
@@ -105,3 +106,18 @@ def rename_img_file(old_path: str, new_name: str) -> None:
         logging.info(f"Renamed image file from {old_path} to {new_path}")
     except Exception as e:
         logging.error(f"Failed to rename image file {old_path} to {new_name}: {e}")
+
+def save_image_as_pdf(img: Image.Image, output_pdf_path: str) -> None:
+    """Save an image as a PDF file."""
+    if not img:
+        logging.error("No image provided to save as PDF")
+        return
+    if not is_pdf_file(output_pdf_path):
+        logging.error(f"Output path {output_pdf_path} is not a valid PDF file")
+        return
+    
+    try:
+        img.convert('RGB').save(output_pdf_path, "PDF")
+        logging.info(f"Saved image as PDF: {output_pdf_path}")
+    except Exception as e:
+        logging.error(f"Failed to save image as PDF {output_pdf_path}: {e}")
