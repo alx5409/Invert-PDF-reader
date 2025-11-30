@@ -7,6 +7,10 @@ from file_handler import exists_file_path, exists_folder
 
 IMG_FORMAT = (".png", ".jpg", ".jpeg", ".bmp", ".gif")
 
+def is_img_file(file_name: str) -> bool :
+    """Check if the file is an image based on its extension."""
+    return file_name.lower().endswith(IMG_FORMAT)
+
 def get_img_file(input_folder: str, pdf_filename: str) -> Optional[Image.Image] :
     """Get an image object by reading an image with filename in the input folder"""
 
@@ -18,7 +22,7 @@ def get_img_file(input_folder: str, pdf_filename: str) -> Optional[Image.Image] 
     if not exists_file_path(img_path):
         return None
     
-    if not img_path.lower().endswith(IMG_FORMAT):
+    if not is_img_file(img_path):
         logging.error(f"File {img_path} is not a supported image format")
         return None
     
@@ -40,7 +44,7 @@ def get_img_files(input_folder: str) -> Optional[Image.Image] :
     
     try:
         for entry in os.listdir(input_folder):
-            if entry.lower().endswith((".png", ".jpg", ".jpeg", ".bmp", ".gif")):
+            if is_img_file(entry):
                 img_files.append(os.path.join(input_folder, entry))
 
         logging.info(f"Success at getting files from {input_folder}")
@@ -74,7 +78,7 @@ def delete_img_file(img_path: str) -> None:
     if not exists_file_path(img_path):
         return
     
-    if not img_path.lower().endswith(IMG_FORMAT):
+    if not is_img_file(img_path):
         logging.error(f"File {img_path} is not a supported image format")
         return
     
@@ -83,3 +87,21 @@ def delete_img_file(img_path: str) -> None:
         logging.info(f"Deleted image file: {img_path}")
     except Exception as e:
         logging.error(f"Failed to delete image file {img_path}: {e}")
+
+def rename_img_file(old_path: str, new_name: str) -> None:
+    """Rename an image file to a new name in the same directory."""
+    if not exists_file_path(old_path):
+        return
+    
+    if not is_img_file(old_path):
+        logging.error(f"File {old_path} is not a supported image format")
+        return
+    
+    try:
+        directory = os.path.dirname(old_path)
+        extension = os.path.splitext(old_path)[1]
+        new_path = os.path.join(directory, f"{new_name}{extension}")
+        os.rename(old_path, new_path)
+        logging.info(f"Renamed image file from {old_path} to {new_path}")
+    except Exception as e:
+        logging.error(f"Failed to rename image file {old_path} to {new_name}: {e}")
