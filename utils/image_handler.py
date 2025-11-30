@@ -68,3 +68,18 @@ def copy_img_to_output(img_file: Image.Image, input_path: str, output_folder:str
     except Exception as e:
         logging.error(f"Failed to copy image file to {output_folder}: {e}")
         return
+    
+def delete_img_file(img_path: str) -> None:
+    """Delete an image file if it exists."""
+    if not exists_file_path(img_path):
+        return
+    
+    if not img_path.lower().endswith(IMG_FORMAT):
+        logging.error(f"File {img_path} is not a supported image format")
+        return
+    
+    try:
+        os.remove(img_path)
+        logging.info(f"Deleted image file: {img_path}")
+    except Exception as e:
+        logging.error(f"Failed to delete image file {img_path}: {e}")
