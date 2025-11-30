@@ -38,9 +38,33 @@ def get_img_files(input_folder: str) -> Optional[Image.Image] :
         logging.error(f"Folder {input_folder} is empty")
         return img_files
     
-    for entry in os.listdir(input_folder):
-        if entry.lower().endswith((".png", ".jpg", ".jpeg", ".bmp", ".gif")):
-            img_files.append(os.path.join(input_folder, entry))
+    try:
+        for entry in os.listdir(input_folder):
+            if entry.lower().endswith((".png", ".jpg", ".jpeg", ".bmp", ".gif")):
+                img_files.append(os.path.join(input_folder, entry))
 
-    logging.info(f"Success at getting files from {input_folder}")
+        logging.info(f"Success at getting files from {input_folder}")
+    except Exception as e:
+        logging.error(f"Failed to get image files from {input_folder}: {e}")
     return img_files
+
+def copy_img_to_output(img_file: Image.Image, input_path: str, output_folder:str) -> None :
+    """Copies a single image file in the output folder with a new name"""
+
+    if not exists_folder(output_folder):
+        return
+    
+    if not img_file:
+        logging.error(f"Image file was not provided")
+        return
+    
+    try:
+        filename = os.path.basename(input_path)
+        name, extension = os.path.splitext(filename)
+        new_name = f"{name}_(copy){extension}"
+        output_path = os.path.join(output_folder, new_name)
+        img_file.save(output_path)
+        logging.info(f"Success at copying {new_name} to {output_folder}")
+    except Exception as e:
+        logging.error(f"Failed to copy image file to {output_folder}: {e}")
+        return
