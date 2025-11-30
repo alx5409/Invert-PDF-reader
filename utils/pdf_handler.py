@@ -2,12 +2,25 @@
 Utility functions for handling PDF files, such as opening, listing, copying, deleting,
 renaming, and moving PDF files. Uses PyMuPDF for PDF operations.
 """
-import os
-import logging
 import fitz
+import logging
+import os
 from typing import List, Optional
 
-from file_handler import exists_file_path, exists_folder
+from .file_handler import exists_file_path, exists_folder
+
+PDF_EXTENSION = ".pdf"
+
+def is_pdf_file(file_name: str) -> bool :
+    """Check if the file is a PDF based on its extension."""
+    return file_name.lower().endswith(PDF_EXTENSION)
+
+def check_pdf_validity(pdf_path: str) -> bool :
+    """Check if the PDF file exists and is a valid PDF."""
+    if not is_pdf_file(pdf_path):
+        logging.error(f"File {pdf_path} is not a supported PDF format")
+        return False
+    return True
 
 def get_pdf_file(input_folder: str, pdf_filename: str) -> Optional[fitz.Document] :
     """Get a document object by reading a pdf with filename in the input folder"""
@@ -18,6 +31,9 @@ def get_pdf_file(input_folder: str, pdf_filename: str) -> Optional[fitz.Document
     pdf_path = os.path.join(input_folder, pdf_filename)
 
     if not exists_file_path(pdf_path):
+        return None
+    
+    if not check_pdf_validity(pdf_path):
         return None
     
     try:
@@ -38,7 +54,7 @@ def get_pdf_files(input_folder: str) -> List[str] :
         return pdf_files
     
     for entry in os.listdir(input_folder):
-        if entry.lower().endswith(".pdf"):
+        if is_pdf_file(entry):
             pdf_files.append(os.path.join(input_folder, entry))
 
     logging.info(f"Success at getting files from {input_folder}")
@@ -67,6 +83,9 @@ def delete_pdf_file(pdf_path: str) -> None:
     if not exists_file_path(pdf_path):
         return
     
+    if not check_pdf_validity(pdf_path):
+        return
+    
     try:
         os.remove(pdf_path)
         logging.info(f"Deleted PDF file: {pdf_path}")
@@ -77,6 +96,9 @@ def delete_pdf_file(pdf_path: str) -> None:
 def rename_pdf_file(pdf_path: str, new_name: str) -> None:
     """Rename a PDF file."""
     if not exists_file_path(pdf_path):
+        return
+    
+    if not check_pdf_validity(pdf_path):
         return
     
     try:
@@ -95,8 +117,7 @@ def move_pdf_file(src_path: str, dest_folder: str) -> None:
         return
     if not exists_folder(dest_folder):
         return
-    if not src_path.lower().endswith('.pdf'):
-        logging.error(f"Source path {src_path} is not a PDF file")
+    if not check_pdf_validity(src_path):
         return
     try:
         filename = os.path.basename(src_path)
