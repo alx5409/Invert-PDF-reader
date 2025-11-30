@@ -1,6 +1,6 @@
 # Python bytecode
 __pycache__/
-
+invert_pdf_reader/__pycache__/
 # VS Code settings
 .vscode/
 
