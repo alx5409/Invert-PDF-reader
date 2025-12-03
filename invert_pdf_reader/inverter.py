@@ -6,13 +6,18 @@ import os
 from configuration import config
 import utils
 
-def invert_single_color(color: int) -> int:
-    """Inverts a color value based on the maximum color number defined in config."""
-    return config.COLOR_NUMBER - color
+class ColorInverter:
+    """Handles color inversion logic."""
 
-def invert_image(image: Image.Image) -> Image.Image:
-    """Inverts the colors of a PIL Image and returns the inverted image."""
-    return Image.eval(image, lambda x: invert_single_color(x))
+    @staticmethod
+    def invert_single_color(color: int) -> int:
+        """Inverts a color value based on the maximum color number defined in config."""
+        return config.COLOR_NUMBER - color
+
+    @staticmethod
+    def invert_image(image: Image.Image) -> Image.Image:
+        """Inverts the colors of a PIL Image and returns the inverted image."""
+        return Image.eval(image, lambda x: ColorInverter.invert_single_color(x))
 
 def invert_png_file(path_file: str) -> None:
     """Inverts the colors of a PNG file and saves it to the output folder."""
