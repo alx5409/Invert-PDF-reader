@@ -1,2 +1,3 @@
 INPUT_FOLDER = "input"
 OUTPUT_FOLDER = "output"
+COLOR_NUMBER = 255
