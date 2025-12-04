@@ -1,6 +1,6 @@
 #TODO Implement file handling utilities for copying, deleting, pasting, and renaming text files and transform to PDF.
 import logging
-# import os
+import os
 # from typing import Optional
 
 TEXT_EXTENSION = ".txt"
@@ -30,3 +30,16 @@ def read_text_file(text_path: str) -> str :
     except Exception as e:
         logging.error(f"Failed to read text file {text_path}: {e}")
         return content
+    
+def delete_text_file(text_path: str) -> bool :
+    """Delete a text file."""
+    if not check_text_validity(text_path):
+        return False
+    
+    try:
+        os.remove(text_path)
+        logging.info(f"Successfully deleted text file {text_path}")
+        return True
+    except Exception as e:
+        logging.error(f"Failed to delete text file {text_path}: {e}")
+        return False
