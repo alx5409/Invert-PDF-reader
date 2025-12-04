@@ -77,3 +77,12 @@ class PDFInverter:
         except Exception as e:
             logging.error(f"Failed to save inverted PDF {pdf_filename}: {e}")
             return
+        
+    @staticmethod
+    def invert_pdfs_in_folder(input_folder: str) -> None:
+        """Inverts all PDF files in the specified input folder."""
+        pdf_files = utils.pdf_handler.get_pdf_files(input_folder)
+        for pdf_path in pdf_files:
+            PDFInverter.invert_pdf(pdf_path)
+        
+        logging.info(f"Completed inversion of all PDFs in folder {input_folder}")
