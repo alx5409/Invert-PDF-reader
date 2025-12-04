@@ -15,3 +15,18 @@ def check_text_validity(text_path: str) -> bool :
         logging.error(f"File {text_path} is not a supported text format")
         return False
     return True
+
+def read_text_file(text_path: str) -> str :
+    """Read and return the content of a text file."""
+    content = ""
+    if not check_text_validity(text_path):
+        return content
+    
+    try:
+        with open(text_path, 'r', encoding='utf-8') as file:
+            content = file.read()
+            logging.info(f"Successfully read text file {text_path}")
+            return content
+    except Exception as e:
+        logging.error(f"Failed to read text file {text_path}: {e}")
+        return content
