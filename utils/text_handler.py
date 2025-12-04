@@ -43,3 +43,16 @@ def delete_text_file(text_path: str) -> bool :
     except Exception as e:
         logging.error(f"Failed to delete text file {text_path}: {e}")
         return False
+    
+def rename_text_file(old_path: str, new_path: str) -> bool :
+    """Rename a text file."""
+    if not check_text_validity(old_path):
+        return False
+    
+    try:
+        os.rename(old_path, new_path)
+        logging.info(f"Successfully renamed text file from {old_path} to {new_path}")
+        return True
+    except Exception as e:
+        logging.error(f"Failed to rename text file {old_path}: {e}")
+        return False
