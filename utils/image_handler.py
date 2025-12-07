@@ -6,7 +6,7 @@ from PIL import Image
 import os
 from typing import Optional
 
-from .file_handler import exists_file_path, exists_folder
+from .file_handler import exists_file_path, exists_folder, rename_file
 from .pdf_handler import is_pdf_file
 
 IMG_EXTENSIONS   = (".png", ".jpg", ".jpeg", ".bmp", ".gif")
@@ -101,14 +101,10 @@ def rename_img_file(old_path: str, new_name: str) -> None:
         logging.error(f"File {old_path} is not a supported image format")
         return
     
-    try:
-        directory = os.path.dirname(old_path)
-        extension = os.path.splitext(old_path)[1]
-        new_path = os.path.join(directory, f"{new_name}{extension}")
-        os.rename(old_path, new_path)
-        logging.info(f"Renamed image file from {old_path} to {new_path}")
-    except Exception as e:
-        logging.error(f"Failed to rename image file {old_path} to {new_name}: {e}")
+    directory = os.path.dirname(old_path)
+    extension = os.path.splitext(old_path)[1]
+    new_path = os.path.join(directory, f"{new_name}{extension}")
+    rename_file(old_path, new_path)
 
 def save_image_as_pdf(img: Image.Image, output_pdf_path: str) -> None:
     """Save an image as a PDF file."""

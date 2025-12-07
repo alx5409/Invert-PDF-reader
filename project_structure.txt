@@ -6,7 +6,10 @@ invert_pdf_reader/
 ├── configuration
 │   └── config.py   # Relative routes
 ├── utils
-│   └── file_handler.py   # Functions to handle files
+│   └── file_handler.py     # Functions to handle generic files
+│   └── pdf_handler.py      # Functions to handle pdf files
+│   └── image_handler.py    # Functions to handle image files
+│   └── text_handler.py     # Functions to handle text files
 ├── README.md
 ├── logs/   # Store the logs file
 ├── input/
