@@ -53,30 +53,23 @@ class PDFInverter:
         pdf_filename = os.path.basename(path_file)
         pdf_document = utils.pdf_handler.get_pdf_file(config.INPUT_FOLDER, pdf_filename)
         if not pdf_document:
-            logging.error(f"Could not read PDF {pdf_filename}")
             return
         
         # Transform pdf pages to images
         images = [page.get_pixmap() for page in pdf_document]
         if not images:
-            logging.error(f"No pages found in PDF {pdf_filename}")
             return
         
         # Invert color of each page image
         inverted_images = []
         for img in images:
             pil_image = Image.frombytes("RGB", [img.width, img.height], img.samples)
-            inverted_image = Image.eval(pil_image, lambda x: 255 - x)
+            inverted_image = ColorInverter.invert_image(pil_image)
             inverted_images.append(inverted_image)
 
         # Merge the images in one file
-        try:
-            output_pdf_path = os.path.join(config.OUTPUT_FOLDER, f"inverted_{pdf_filename}")
-            inverted_images[0].save(output_pdf_path, save_all=True, append_images=inverted_images[1:], format="PDF")
-            logging.info(f"Inverted PDF saved to {output_pdf_path}")
-        except Exception as e:
-            logging.error(f"Failed to save inverted PDF {pdf_filename}: {e}")
-            return
+        pdf_output_path = os.path.join(config.OUTPUT_FOLDER, f"inverted_{pdf_filename}")
+        utils.image_handler.merge_images_in_one_pdf(inverted_images, pdf_output_path)
         
     @staticmethod
     def invert_pdfs_in_folder(input_folder: str) -> None:
