@@ -120,3 +120,21 @@ def save_image_as_pdf(img: Image.Image, output_pdf_path: str) -> None:
         logging.info(f"Saved image as PDF: {output_pdf_path}")
     except Exception as e:
         logging.error(f"Failed to save image as PDF {output_pdf_path}: {e}")
+        return
+    
+def merge_images_in_one_pdf(images: list[Image.Image], pdf_output_path: str) -> None:
+    """Merge multiple images into a single file."""
+    if not images:
+        logging.error("No images provided to merge into PDF")
+        return
+    if not exists_file_path(pdf_output_path):
+        return
+    
+    # Save all images into a single PDF file
+    try:
+        images[0].save(pdf_output_path, save_all=True, append_images=images[1:], format="PDF")
+        logging.info(f"Merged images saved to {pdf_output_path}")
+    except Exception as e:
+        logging.error(f"Failed to merge images into PDF {pdf_output_path}: {e}")
+        return
+    

@@ -2,16 +2,17 @@ invert_pdf_reader/
 ├── invert_pdf_reader/
 │   ├── main.py             # Entry point (CLI or GUI)
 │   └── inverter.py         # Invert pdf logic 
-├── requirements.txt      # Dependencies
+├── requirements.txt    # Dependencies
 ├── configuration
-│   └── config.py   # Relative routes
+│   └── config.py           # Relative routes
+│   └── logging_config.py   # Log messages configuration
 ├── utils
 │   └── file_handler.py     # Functions to handle generic files
 │   └── pdf_handler.py      # Functions to handle pdf files
 │   └── image_handler.py    # Functions to handle image files
 │   └── text_handler.py     # Functions to handle text files
 ├── README.md
-├── logs/   # Store the logs file
+├── logs/               # Store the logs file
 ├── input/
 ├── output/
 ├── LICENSE

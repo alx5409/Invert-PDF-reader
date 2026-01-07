@@ -1,7 +1,7 @@
-#TODO Implement file handling utilities for copying, deleting, pasting, and renaming text files and transform to PDF.
+"""File handling utilities for copying, deleting, pasting, and renaming text files and transform to PDF."""
 import logging
 import os
-# from typing import Optional
+from typing import Optional
 
 TEXT_EXTENSION = ".txt"
 
