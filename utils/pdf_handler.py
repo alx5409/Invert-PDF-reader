@@ -140,3 +140,16 @@ def move_all_pdf_files(src_folder: str, dest_folder: str) -> None:
     for filename in os.listdir(src_folder):
         file_path = os.path.join(src_folder, filename)
         move_pdf_file(file_path, dest_folder)
+
+def merge_two_pdf_files(pdf_file_path_1: str, pdf_file_path_2: str, output_folder: str) -> None:
+    """Merge two pdf files in one file at the output folder by concateneting the begining of the second into the end of the first."""
+    if not exists_file_path(pdf_file_path_1) or not exists_file_path(pdf_file_path_2):
+        return
+    if not check_pdf_validity(pdf_file_path_1) or not check_pdf_validity(pdf_file_path_2):
+        return
+    
+    # Creates the new name of the merged files and checks
+    filename_1 = os.name(pdf_file_path_1)
+    filename_2 = os.name(pdf_file_path_2)
+
+    # continue
