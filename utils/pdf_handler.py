@@ -205,3 +205,59 @@ def add_page_number_to_pdf(pdf_file_path : str, output_folder: str) -> None:
         logging.error(f"Failed to add page numbers.")
     finally:
         pdf.close()
+
+def split_pdf(pdf_pathname: str, page_number: int, output_folder: str) -> None:
+    if not exists_file_path(pdf_pathname):
+        return
+    if not isinstance(page_number, int):
+        logging.error("page_number must be an integer")
+        return
+    if not exists_folder(output_folder):
+        return
+
+    try:
+        pdf = fitz.open(pdf_pathname)
+        number_pages = len(pdf)
+        pdf.close()
+    except Exception:
+        logging.error(f"Error at opening {pdf_pathname}")
+        return
+    
+    if not (1 <= page_number < number_pages):
+        logging.error(f"page_number must be between 1 and {number_pages}")
+        pdf.close()
+        return
+    
+    name, extension = os.path.splitext(os.path.basename(pdf_pathname))
+    
+    # First part: pages 0 to page_number - 1
+    pdf_part_1 = fitz.open(pdf_pathname)
+    pdf_part_1.select(list(range(page_number)))
+    filename_1 = f"{name}_part_1{extension}"
+    output_path_1 = os.path.join(output_folder, filename_1)
+    try:
+        pdf_part_1.save(output_path_1)
+    except Exception as e:
+        logging.error(f"Error saving part 1: {e}")
+    finally: 
+        pdf_part_1.close()
+
+    # Second part    
+    if page_number + 1 >= number_pages:
+        return
+    
+    pdf_part_2 = fitz.open(pdf_pathname)
+    pdf_part_2.select(list(range(page_number, number_pages)))
+    filename_2 = f"{name}_part_2{extension}"
+    output_path_2 = os.path.join(output_folder, filename_2)
+    try:
+        pdf_part_2.save(output_path_2)
+    except Exception as e:
+        logging.error(f"Error saving part 2: {e}")
+    finally:
+        pdf_part_2.close()
+    
+    logging.info(f"Success at spliting {pdf_pathname} at the page number: {page_number}")
+
+# TODO: features to add: compress a pdf, convert pdf to word, convert word to pdf, convert jpeg to pdf, convert pdf to jpeg
+#   add a watermark to pdf, rotate a pdf, html to pdf.
