@@ -141,22 +141,15 @@ def move_all_pdf_files(src_folder: str, dest_folder: str) -> None:
         file_path = os.path.join(src_folder, filename)
         move_pdf_file(file_path, dest_folder)
 
-def save_pdf_file(pdf_file: fitz.Document, output_folder: str, new_filename: str) -> None :
-    """Saves the provided pdf file in the output folder with the new filename"""
-    if not exists_folder(output_folder):
+def merge_two_pdf_files(pdf_file_path_1: str, pdf_file_path_2: str, output_folder: str) -> None:
+    """Merge two pdf files in one file at the output folder by concateneting the begining of the second into the end of the first."""
+    if not exists_file_path(pdf_file_path_1) or not exists_file_path(pdf_file_path_2):
+        return
+    if not check_pdf_validity(pdf_file_path_1) or not check_pdf_validity(pdf_file_path_2):
         return
     
-    if not pdf_file:
-        logging.error(f"Pdf file was not provided")
-        return
-    
-    if not new_filename.lower().endswith(PDF_EXTENSION):
-        logging.error(f"New filename {new_filename} does not have a valid PDF extension")
-        return
-    
-    output_path = os.path.join(output_folder, new_filename)
-    try:
-        pdf_file.save(output_path)
-        logging.info(f"Success at saving PDF to {output_path}")
-    except Exception as e:
-        logging.error(f"Failed to save PDF to {output_path}: {e}")
+    # Creates the new name of the merged files and checks
+    filename_1 = os.name(pdf_file_path_1)
+    filename_2 = os.name(pdf_file_path_2)
+
+    # continue
