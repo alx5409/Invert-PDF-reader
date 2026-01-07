@@ -140,3 +140,23 @@ def move_all_pdf_files(src_folder: str, dest_folder: str) -> None:
     for filename in os.listdir(src_folder):
         file_path = os.path.join(src_folder, filename)
         move_pdf_file(file_path, dest_folder)
+
+def save_pdf_file(pdf_file: fitz.Document, output_folder: str, new_filename: str) -> None :
+    """Saves the provided pdf file in the output folder with the new filename"""
+    if not exists_folder(output_folder):
+        return
+    
+    if not pdf_file:
+        logging.error(f"Pdf file was not provided")
+        return
+    
+    if not new_filename.lower().endswith(PDF_EXTENSION):
+        logging.error(f"New filename {new_filename} does not have a valid PDF extension")
+        return
+    
+    output_path = os.path.join(output_folder, new_filename)
+    try:
+        pdf_file.save(output_path)
+        logging.info(f"Success at saving PDF to {output_path}")
+    except Exception as e:
+        logging.error(f"Failed to save PDF to {output_path}: {e}")

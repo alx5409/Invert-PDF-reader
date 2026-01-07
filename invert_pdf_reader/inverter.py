@@ -23,6 +23,15 @@ class ImageInverter:
     """Handles image inversion logic."""
 
     @staticmethod
+    def save_inverted_image(image: Image.Image, output_path: str) -> None:
+        """Saves the inverted image to the specified output path."""
+        try:
+            image.save(output_path)
+            logging.info(f"Inverted image saved to {output_path}")
+        except Exception as e:
+            logging.error(f"Failed to save inverted image to {output_path}: {e}")
+
+    @staticmethod
     def invert_png_file(path_file: str) -> None:
         """Inverts the colors of a PNG file and saves it to the output folder."""
         # Read image
@@ -33,16 +42,12 @@ class ImageInverter:
             return
         
         # Invert colors
-        try:
-            image = image.convert("RGB")
-            inverted_image = ColorInverter.invert_image(image)
-            inverted_image_path = os.path.join(config.OUTPUT_FOLDER, f"inverted_{img_filename}")
-            inverted_image.save(inverted_image_path)
-            logging.info(f"Inverted image saved to {inverted_image_path}")
-        except Exception as e:
-            logging.error(f"Failed to invert image {img_filename}: {e}")
-            return
-        
+        image = image.convert("RGB")
+        inverted_image = ColorInverter.invert_image(image)
+
+        # Save inverted image
+        ImageInverter.save_inverted_image(inverted_image, os.path.join(config.OUTPUT_FOLDER, f"inverted_{img_filename}"))
+
 class PDFInverter:
     """Handles PDF inversion logic."""
 
