@@ -148,8 +148,25 @@ def merge_two_pdf_files(pdf_file_path_1: str, pdf_file_path_2: str, output_folde
     if not check_pdf_validity(pdf_file_path_1) or not check_pdf_validity(pdf_file_path_2):
         return
     
+    if not exists_folder(output_folder):
+        return
+    
     # Creates the new name of the merged files and checks
-    filename_1 = os.name(pdf_file_path_1)
-    filename_2 = os.name(pdf_file_path_2)
+    filename_1 = os.path.basename(pdf_file_path_1)
+    filename_2 = os.path.basename(pdf_file_path_2)
+    new_filename = f"{os.path.splitext(filename_1)[0]}_merge_{os.path.splitext(filename_2)[0]}.pdf"
+    new_path = os.path.join(output_folder, new_filename)
 
-    # continue
+    # Joins the two filenames and saves into the ouput folder
+    try: 
+        pdf_1 = fitz.open(pdf_file_path_1)
+        pdf_2 = fitz.open(pdf_file_path_2)
+        pdf_1.insert_pdf(pdf_2)
+        pdf_1.save(new_path)    
+        logging.info(f"Sucess at merging the pdfs {filename_1} and {filename_2} to {new_path}")
+    except Exception:
+        logging.error(f"Merge of {filename_1} and {filename_2} failed.")
+    # Save the pdf in the ouput folder
+    finally:
+        pdf_1.close()
+        pdf_2.close()
