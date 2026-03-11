@@ -149,7 +149,7 @@ def merge_two_pdf_files(pdf_file_path_1: str, pdf_file_path_2: str, output_folde
         return
     
     # Creates the new name of the merged files and checks
-    filename_1 = os.name(pdf_file_path_1)
-    filename_2 = os.name(pdf_file_path_2)
+    filename_1 = os.path.basename(pdf_file_path_1)
+    filename_2 = os.path.basename(pdf_file_path_2)
 
     # continue

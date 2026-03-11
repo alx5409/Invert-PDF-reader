@@ -127,7 +127,11 @@ def merge_images_in_one_pdf(images: list[Image.Image], pdf_output_path: str) -> 
     if not images:
         logging.error("No images provided to merge into PDF")
         return
-    if not exists_file_path(pdf_output_path):
+    
+    # Check if output directory exists
+    output_dir = os.path.dirname(pdf_output_path)
+    if output_dir and not exists_folder(output_dir):
+        logging.error(f"Output directory {output_dir} does not exist")
         return
     
     # Save all images into a single PDF file

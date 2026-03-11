@@ -79,3 +79,18 @@ class PDFInverter:
             PDFInverter.invert_pdf(pdf_path)
         
         logging.info(f"Completed inversion of all PDFs in folder {input_folder}")
+
+
+def invert_png_file(path_file: str) -> None:
+    """Wrapper function to invert a PNG file."""
+    ImageInverter.invert_png_file(path_file)
+
+
+def invert_pdf(path_file: str) -> None:
+    """Wrapper function to invert a PDF file."""
+    PDFInverter.invert_pdf(path_file)
+
+
+def invert_pdfs_in_folder(input_folder: str) -> None:
+    """Wrapper function to invert all PDFs in a folder."""
+    PDFInverter.invert_pdfs_in_folder(input_folder)
