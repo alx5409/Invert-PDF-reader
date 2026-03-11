@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+import logging
 import os
 import sys
 
@@ -10,16 +11,13 @@ from inverter import ImageInverter, PDFInverter
 
 load_dotenv()
 
-img_filename = os.getenv("IMG_FILENAME")
+# img_filename = os.getenv("IMG_FILENAME")
 pdf_filename = os.getenv("PDF_FILENAME")
 
 def main():
-    if pdf_filename:
+    try:
         PDFInverter.invert_pdf(pdf_filename)
-    elif img_filename:
-        ImageInverter.invert_png_file(img_filename)
-    else:
-        print("Please set IMG_FILENAME or PDF_FILENAME in .env file")
-
+    except Exception as e:
+        logging.error(f"An error occurred during PDF inversion: {e}")
 if __name__ == "__main__":
     main()

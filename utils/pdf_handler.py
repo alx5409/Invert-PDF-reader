@@ -192,8 +192,8 @@ def add_page_number_to_pdf(pdf_file_path : str, output_folder: str) -> None:
             text = f"{page_number + 1} / {len(pdf)}"    # Format of the page number ouput 
             # Position of the text
             rect = page.rect
-            x: Rect = rect.x1 - 60
-            y: Rect = rect.y1 - 20
+            x: float = rect.x1 - 60
+            y: float = rect.y1 - 20
             page.insert_text((x, y), text, fontsize=12, color=(0, 0, 0))    # Insert the page number with black color
         
         filename = os.path.basename(pdf_file_path)
