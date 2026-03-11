@@ -148,8 +148,61 @@ def merge_two_pdf_files(pdf_file_path_1: str, pdf_file_path_2: str, output_folde
     if not check_pdf_validity(pdf_file_path_1) or not check_pdf_validity(pdf_file_path_2):
         return
     
+    if not exists_folder(output_folder):
+        return
+    
     # Creates the new name of the merged files and checks
     filename_1 = os.path.basename(pdf_file_path_1)
     filename_2 = os.path.basename(pdf_file_path_2)
+    name_1, _ = os.path.splitext(filename_1)
+    name_2, _ = os.path.splitext(filename_2)
+    new_filename = f"{name_1}_{name_2}_merged{PDF_EXTENSION}"
+    new_path = os.path.join(output_folder, new_filename)
+    # Joins the two filenames and saves into the ouput folder
+    try: 
+        pdf_1 = fitz.open(pdf_file_path_1)
+        pdf_2 = fitz.open(pdf_file_path_2)
+        pdf_1.insert_pdf(pdf_2)
+        pdf_1.save(new_path)    
+        logging.info(f"Sucess at merging the pdfs {filename_1} and {filename_2} to {new_path}")
+    except Exception:
+        logging.error(f"Merge of {filename_1} and {filename_2} failed.")
+    # Save the pdf in the ouput folder
+    finally:
+        pdf_1.close()
+        pdf_2.close()
 
-    # continue
+def add_page_number_to_pdf(pdf_file_path : str, output_folder: str) -> None:
+    """Add page number in the pdf at the bottom right"""
+    if not exists_file_path(pdf_file_path):
+        return
+    
+    if not check_pdf_validity(pdf_file_path):
+        return
+    
+    if not exists_folder(output_folder):
+        return
+    
+
+    try:
+        pdf = fitz.open(pdf_file_path)
+        page_numbers = range(len(pdf))
+        for page_number in page_numbers:
+            page = pdf[page_number]
+            text = f"{page_number + 1} / {len(pdf)}"    # Format of the page number ouput 
+            # Position of the text
+            rect = page.rect
+            x: Rect = rect.x1 - 60
+            y: Rect = rect.y1 - 20
+            page.insert_text((x, y), text, fontsize=12, color=(0, 0, 0))    # Insert the page number with black color
+        
+        filename = os.path.basename(pdf_file_path)
+        name, extension = os.path.splitext(filename)
+        new_filename = f"{name}_numbered{extension}"
+        output_path = os.path.join(output_folder, new_filename)
+        pdf.save(output_path)
+        logging.info(f"Added page to {name}")
+    except Exception:
+        logging.error(f"Failed to add page numbers.")
+    finally:
+        pdf.close()
