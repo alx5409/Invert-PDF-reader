@@ -154,9 +154,10 @@ def merge_two_pdf_files(pdf_file_path_1: str, pdf_file_path_2: str, output_folde
     # Creates the new name of the merged files and checks
     filename_1 = os.path.basename(pdf_file_path_1)
     filename_2 = os.path.basename(pdf_file_path_2)
-    new_filename = f"{os.path.splitext(filename_1)[0]}_merge_{os.path.splitext(filename_2)[0]}.pdf"
+    name_1, _ = os.path.splitext(filename_1)
+    name_2, _ = os.path.splitext(filename_2)
+    new_filename = f"{name_1}_{name_2}_merged{PDF_EXTENSION}"
     new_path = os.path.join(output_folder, new_filename)
-
     # Joins the two filenames and saves into the ouput folder
     try: 
         pdf_1 = fitz.open(pdf_file_path_1)
@@ -191,8 +192,8 @@ def add_page_number_to_pdf(pdf_file_path : str, output_folder: str) -> None:
             text = f"{page_number + 1} / {len(pdf)}"    # Format of the page number ouput 
             # Position of the text
             rect = page.rect
-            x = rect.x1 - 60
-            y = rect.y1 - 20
+            x: float = rect.x1 - 60
+            y: float = rect.y1 - 20
             page.insert_text((x, y), text, fontsize=12, color=(0, 0, 0))    # Insert the page number with black color
         
         filename = os.path.basename(pdf_file_path)

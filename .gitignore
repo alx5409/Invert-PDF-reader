@@ -19,3 +19,6 @@ output/
 
 # Environment variables
 .env
+
+# Ignore the pdf files
+*.pdf
